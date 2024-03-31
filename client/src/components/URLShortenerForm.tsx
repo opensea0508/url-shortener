@@ -7,7 +7,6 @@ const URLShortenerForm: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // You would call your backend API endpoint to shorten the URL here
     try {
       const response = await fetch('http://localhost:5000/api/url/shorten', {
         method: 'POST',
@@ -17,18 +16,15 @@ const URLShortenerForm: React.FC = () => {
         body: JSON.stringify({ originalUrl: url }),
       });
       const data = await response.json();
-      console.log(data)
       setShortenedUrl(`http://localhost:5000/${data.slug}`);
       setShowSuccess(true);
     } catch (error) {
       console.error('Error shortening URL:', error);
-      // Handle the error state appropriately here
     }
   };
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(shortenedUrl).then(() => {
-      // Display a success message or indicate somehow that the URL was copied
       console.log('Shortened URL copied to clipboard!');
     });
   };
@@ -36,7 +32,7 @@ const URLShortenerForm: React.FC = () => {
   return (
     <div>
       {!showSuccess ? (
-        <div> {/* Form Container */}
+        <div>
           <form onSubmit={handleSubmit}>
             <label htmlFor="url">URL</label>
             <input
@@ -51,7 +47,7 @@ const URLShortenerForm: React.FC = () => {
           </form>
         </div>
       ) : (
-        <div> {/* Success Container */}
+        <div>
           <p>Success! Here's your short URL:</p>
           <p>{shortenedUrl}</p>
           <button onClick={handleCopyClick}>Copy</button>
